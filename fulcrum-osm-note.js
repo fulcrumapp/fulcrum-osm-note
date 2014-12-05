@@ -6,9 +6,9 @@ function handleResponse(e) {
   var jsonString = e.postData.getDataAsString();
   var payload = JSON.parse(jsonString);
 
-  var username = "fulcrum-note";
-  var password = "iK%Wigs,";
-  var app_id   = "cd25582c-f9b7-47b5-846f-976c45f082c9";
+  var username = "OSM_USERNAME";
+  var password = "OSM_PASSWORD";
+  var app_id   = "FULCRUM_APP_ID";
 
   var lat = payload.data.latitude;
   var lng = payload.data.longitude;
@@ -29,26 +29,10 @@ function handleResponse(e) {
   if (payload.data.form_id === app_id) {
     // What type of Fulcrum data event is it
     if (payload.type === "record.create") {
-      subject = "New Fulcrum record created";
-      // Post note
       postNote();
-    } else if (payload.type === "record.update") {
-      subject = "Fulcrum record updated";
-    } else if (payload.type === "record.delete") {
-      subject = "Fulcrum record deleted";
-    }
   }
 
   function postNote() {
     UrlFetchApp.fetch(postUrl, options);
-  }
-
-  // Build email content
-  function sendMail() {
-    MailApp.sendEmail({
-      to: "bryan@spatialnetworks.com",
-      subject: subject,
-      htmlBody: postUrl
-    });
   }
 }
